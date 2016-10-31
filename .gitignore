@@ -1,0 +1,13 @@
+# C
+
+*.o
+*.elf
+.clang_complete
+.gcc-flags.json
+.pioenvs/
+
+# Python
+
+__pycache__/
+*.py[cod]
+*$py.class
