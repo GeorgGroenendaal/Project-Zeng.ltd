@@ -15,14 +15,5 @@ void uart_init(void){
   UCSR0A &= ~(_BV(U2X0));
 
   UCSR0C = _BV(UCSZ01) | _BV(UCSZ00); // 8 bit data size
-  UCSR0B = _BV(RXEN0) | _BV(TXEN0);   // RX and TX setting
-}
-
-void uart_putchar(char c) {
-    UDR0 = c;
-}
-
-char uart_getchar(void) {
-    loop_until_bit_is_set(UCSR0A, RXC0); /* Wait until data exists. */
-    return UDR0;
+  UCSR0B = _BV(RXEN0) | _BV(TXEN0) | _BV(RXCIE0);   // RX and TX setting and Rx interrupts
 }
