@@ -6,7 +6,7 @@
 
 // Local files
 #include "uart.c"
-#include "protocol.c"
+#include "reciever.c"
 
 int main (void)
 {
@@ -14,12 +14,9 @@ int main (void)
 
   sei(); // Enable global interrupts
 
-  DDRB |= _BV(PB2);
+  DDRB |= _BV(PB5);
 
   while(1) {
-    _delay_ms(100);
-    PORTB ^= _BV(PB2);
-    _delay_ms(100);
   }
   return 0;
 }
