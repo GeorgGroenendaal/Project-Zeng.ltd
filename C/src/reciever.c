@@ -1,28 +1,24 @@
 /* Unpacks the recieved messages and calls the corresponding function according
- * the communication protocoll
+ * the communication protocoll. Instructions start at decimal 0x41 (ASCII letter A), and increment from that point
+ * Corresponding function indice can be calculated by: instruction - 0x41 = instruction index.
  */
 #include <avr/interrupt.h>
 #include <stdbool.h>
 #include <string.h>
 
-#include "function.c"
+#include "function.c" // Contains functions that func_ptr points to.
 
-// Contains corresponding pointer to the function
+bool new_instruction = false; // Toggled on if the next byte is instruction
+char instruction; // Contains instruction code
+char parameter[4]; // 4 bytes with for a maximum of 32 bits storage. We keep big endian notation
+
+// Array of function pointers, that gets called based on
 void (*func_ptr[2])() = {
   function1,
   function2
 };
 
-// Instruction parameters
-bool new_instruction = false;
-char instruction;
-// 4 bytes with for a maximum of 32 bits storage. We keep big endian notation
-char parameter[4];
-
-/* Peforms unpacking and executes corresponding function.
- * Instructions start at decimal 0x41 (ASCII letter A), and increment from that point
- * Corresponding function indice can be calculated by: instruction - 0x41 = instruction index
- */
+// Aligns the instruction with func_ptr indice. So 0x41 executes the first function.
 void execute_instruction(){
   char index = instruction - 0x41;
   func_ptr[index]();
@@ -37,36 +33,28 @@ void reset_instruction(){
 
 // Serial interrupt. Gets called when a byte over serial has been recieved.
 ISR(USART_RX_vect){
-  // Byte recieved trough usb
   char recievedbyte;
   recievedbyte = UDR0;
 
-  UDR0 = recievedbyte;
-
-  // 0x02 is a new command
+  // New command, Trash previous and set instruction parameters
   if (recievedbyte == 0x02){
-    // Trash the previous instruction
     reset_instruction();
-    // Set new_instruction parameter, so next byte is instruction byte
     new_instruction = true;
     return;
   }
-  // Check if instruction byte
+  // Byte is instruction code, update instruction parameters
   else if (new_instruction == true){
-    // Set the instruction
     instruction = recievedbyte;
-    // Toggle the new_instruction flag to off, Next bytes will be parameters or
-    // end of command
     new_instruction = false;
     return;
   }
-  // End of command
+  // End of command, execute the current instruction parameters
   else if (recievedbyte == 0x03){
     execute_instruction();
     reset_instruction();
     return;
   }
-  // All other situations are bytes
+  // Other bytes are parameters. TODO: create an better parameter storing system.
   else {
     int i;
     for (i = 0; i < 4; i++){
