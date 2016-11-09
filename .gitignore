@@ -11,8 +11,4 @@
 __pycache__/
 *.py[cod]
 *$py.class
-.idea/Project-Zeng.ltd.iml
-.idea/misc.xml
-.idea/modules.xml
-.idea/workspace.xml
-
+.idea
