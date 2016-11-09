@@ -4,19 +4,20 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 
-// Local files
+// Local filesm
 #include "uart.c"
 #include "reciever.c"
 
 int main (void)
 {
-  uart_init(); // Initialize usart
+  uart_init(); // Initialize uart
 
   sei(); // Enable global interrupts
 
-  DDRB |= _BV(PB5);
+  DDRB |= _BV(DDB5);
 
   while(1) {
+
   }
   return 0;
 }

@@ -13,9 +13,13 @@ char instruction; // Contains instruction code
 char parameter[4]; // 4 bytes with for a maximum of 32 bits storage. We keep big endian notation
 
 // Array of function pointers, that gets called based on
-void (*func_ptr[2])() = {
-  function1,
-  function2
+void (*func_ptr[3])() = {
+  // 0 - 0x41
+  base_isalive,
+  // 1 - 0x42
+  led13on,
+  // 2 - ox43
+  led13off
 };
 
 // Aligns the instruction with func_ptr indice. So 0x41 executes the first function.
