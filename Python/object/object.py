@@ -1,3 +1,7 @@
+from Python.decode import decode
+from Python.encode import encode
+
+
 class Zonwering:
     def __init__(self):
         current_temp = 0
@@ -41,3 +45,7 @@ class Zonwering:
 
     def process_days_back(self):
         pass
+
+    # Temporary test method
+    def turn_on_led(self):
+        encode.Encoder('024203')
