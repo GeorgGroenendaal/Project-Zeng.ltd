@@ -2,30 +2,44 @@
  * as defined in the communication protocoll
  */
 
-// Sends array of max 7 chars over the serial port. Is
-void send_characters(char instr[7]){
+// Internal function Waits for empty buffer and sends char
+void send_char(char ch){
+  loop_until_bit_is_set(UCSR0A, UDRE0);
+  UDR0 = ch;
+}
+
+// Sends array of max 7 chars over the serial port.
+void send_instruction(char param[4], char length){
+  // Opening
+  send_char(0x02);
+  // Success + param response code
+  send_char(0x32);
+
   char i;
-  for (i = 0; i < 7 ; i++){
-    // Exit the loop when instruction has ended
-    if (instr[i] == 0x03){
-      loop_until_bit_is_set(UCSR0A, UDRE0);
-      UDR0 = instr[i];
-      break;
-    }
-    // Make sure system is able to transmit
-    loop_until_bit_is_set(UCSR0A, UDRE0);
-    UDR0 = instr[i];
+  for (i = 0; i < length ; i++){
+    send_char(param[i]);
   }
+  // Send end byte
+  send_char(0x03);
 }
 
 // builds an success response and sends it
 void send_success(){
-  char instr[3] = {0x02, 0x30, 0x03};
-  send_characters(instr);
+  send_instruction(0, 0);
 }
 
-// builds an failed response and sends it
-void send_failed(){
-  char instr[] = {0x02, 0x31, 0x03};
-  send_characters(instr);
+// // builds an failed response and sends it
+// void send_failed(){
+//   char instr[] = {0x02, 0x31, 0x03};
+//   send_characters(instr);
+// }
+
+void send_float(float val){
+  union Datafloat {
+    float temprature;
+    char param[4];
+  } floatcontainer;
+
+  floatcontainer.temprature = val;
+  send_instruction(floatcontainer.param, 4);
 }
