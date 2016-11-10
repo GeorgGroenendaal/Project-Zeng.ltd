@@ -1,8 +1,16 @@
+/* Functions as a linker for the protocoll
+ */
+
 #include "responder.c"
 
 // 0x41 - When called sends an succes message
 void base_isalive(){
   send_success();
+}
+
+// 0x42 - When called sends the current temprature in floating point
+void sensor_gettemp(){
+
 }
 
 // 0x42 - Turns led 13 on
