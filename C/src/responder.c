@@ -9,7 +9,7 @@ void send_char(char ch){
 }
 
 // Sends array of max 7 chars over the serial port.
-void send_instruction(char param[4], char length){
+void send_success_param(char param[4], char length){
   // Opening
   send_char(0x02);
   // Success + param response code
@@ -25,15 +25,19 @@ void send_instruction(char param[4], char length){
 
 // builds an success response and sends it
 void send_success(){
-  send_instruction(0, 0);
+  send_char(0x02);
+  send_char(0x30);
+  send_char(0x03);
 }
 
-// // builds an failed response and sends it
-// void send_failed(){
-//   char instr[] = {0x02, 0x31, 0x03};
-//   send_characters(instr);
-// }
+// builds an failed response and sends it
+void send_failed(){
+  send_char(0x02);
+  send_char(0x31);
+  send_char(0x03);
+}
 
+// Converts a float to 4 bytes and sends it over the serial connection.
 void send_float(float val){
   union Datafloat {
     float temprature;
@@ -41,5 +45,5 @@ void send_float(float val){
   } floatcontainer;
 
   floatcontainer.temprature = val;
-  send_instruction(floatcontainer.param, 4);
+  send_success_param(floatcontainer.param, 4);
 }

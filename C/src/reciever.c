@@ -6,19 +6,19 @@
 #include <stdbool.h>
 #include <string.h>
 
-#include "function.c" // Contains functions that func_ptr points to.
-
 bool new_instruction = false; // Toggled on if the next byte is instruction
 char instruction; // Contains instruction code
 char parameter[4]; // 4 bytes with for a maximum of 32 bits storage. We keep big endian notation
 
 // Array of function pointers, that gets called based on
-void (*func_ptr[3])() = {
+void (*func_ptr[4])() = {
   // 0 - 0x41
   base_isalive,
   // 1 - 0x42
+  sensor_gettemp,
+  // 2 - 0x43
   led13on,
-  // 2 - ox43
+  // 4 - ox44
   led13off
 };
 
