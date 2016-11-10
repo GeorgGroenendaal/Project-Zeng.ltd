@@ -1,4 +1,4 @@
-from Python.object.object import Zonwering
+from Python.object import Zonwering
 
 if __name__ == '__main__':
     z1 = Zonwering()
