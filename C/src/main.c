@@ -1,18 +1,25 @@
-// Used for delay functions
 #define F_CPU 16000000UL
 
 #include <avr/io.h>
 #include <util/delay.h>
+#include <avr/interrupt.h>
 
-void main (void)
+// Local filesm
+#include "functions/init.c"
+#include "functions/sensor.c"
+
+#include "responder.c"
+#include "protocoll.c"
+#include "reciever.c"
+
+int main (void)
 {
-  DDRB |= _BV(DDB2); // Set arduino port 10 as output
+  port_init();
+  uart_init(); // Initialize uart
+  adc_init(); // Initialize ADC
+  sei(); // Enable global interrupts
 
-  // Infinite loop
   while(1) {
-    PORTB |= _BV(PB2);
-    _delay_ms(1000);
-    PORTB &= ~_BV(PB2);
-    _delay_ms(1000);
   }
+  return 0;
 }

@@ -15,6 +15,6 @@ An example (linux) build process would be.
     # Compile using gcc
     avr-gcc -Os -mmcu=atmega328p main.c -o ../build/build.o
     # Convert to hex
-    avr-objcopy -O ihex ../build/build.o ../build.hex
+    avr-objcopy -O ihex ../build/build.o ../build/build.hex
     # Flash to Arduino using avrdude
     avrdude -c arduino -P /dev/ttyACM0 -p m328p -U flash:w:../build/build.hex
