@@ -9,7 +9,16 @@
 void port_init(void){
   DDRB |= _BV(DDB5); // Pin 13 output
 
+  DDRB |= _BV(DDB0); // Pin 8 output (trigger)
+  DDRB &= ~_BV(DDB1); // Pin 9 input (echo )
+
   DDRC &= ~_BV(DDC0); // Analog pin 0 input
+}
+
+/* Sets the timer and prescaler
+ */
+void timer_init(void){
+  TCCR1B |= _BV(CS10);
 }
 
 /* Sets up the usb with the most common configuration:

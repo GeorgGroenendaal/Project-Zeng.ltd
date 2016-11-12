@@ -12,6 +12,11 @@ void sensor_gettemp(){
   send_float(temp);
 }
 
+void sensor_getdistance(){
+  float temp = getdistance();
+  send_float(temp);
+}
+
 // 0x43 - Turns led 13 on
 void led13on(){
   PORTB |= _BV(PB5);

@@ -14,7 +14,8 @@
 
 int main (void)
 {
-  port_init();
+  port_init(); // Initialize port data registers
+  timer_init();
   uart_init(); // Initialize uart
   adc_init(); // Initialize ADC
   sei(); // Enable global interrupts

@@ -11,14 +11,16 @@ char instruction; // Contains instruction code
 char parameter[4]; // 4 bytes with for a maximum of 32 bits storage. We keep big endian notation
 
 // Array of function pointers, that gets called based on
-void (*func_ptr[4])() = {
+void (*func_ptr[5])() = {
   // 0 - 0x41
   base_isalive,
   // 1 - 0x42
   sensor_gettemp,
   // 2 - 0x43
+  sensor_getdistance,
+  // 3 - 0x44
   led13on,
-  // 4 - ox44
+  // 4 - ox45
   led13off
 };
 
