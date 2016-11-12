@@ -1,6 +1,5 @@
 from Python import traffic
 from Python import converter
-import threading
 
 
 class Zonwering:
@@ -76,14 +75,12 @@ class Zonwering:
 
 
 class ToGUI:
-    def __init__(self):
-        self.conv = converter.Converter()
 
     # Returns current temperature from Arduino to GUI
     def return_current_temp(self, bycmd):
         print(bycmd)
         print("Temperature returned")
-        self.conv.hex_to_int(bycmd)
+        converter.hex_to_int(bycmd)
 
     def return_succes(self, bycmd):
         print(bycmd)
