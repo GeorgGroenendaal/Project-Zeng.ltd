@@ -24,7 +24,7 @@ The settings for the control units can be modified using our dashboard. The dash
 
     # python3 -m pip install pyqt5
 
-This will install the wheel for your platform and your version of Python (assuming both are supported). The wheel will be automatically downloaded from the Python Package Index. After that just run gui.py (with Python 3.x!) to open the dashboard.
+This will install the wheel for your platform and your version of Python (assuming both are supported). The wheel will be automatically downloaded from the Python Package Index. After that just run Dashboard.py (with Python 3.x!) to open the dashboard.
 
 
   
