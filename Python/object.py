@@ -1,4 +1,5 @@
-from Python import encode
+from Python import traffic
+from Python import converter
 import threading
 
 
@@ -12,58 +13,78 @@ class Zonwering:
         self.max_rollout = 160.0
         self.min_rollout = 0.5
         self.look_days_back = 0
+        self.arduino = traffic.Traffic()
 
-    # Haalt elke 40 sec de huidige temteratuur op vanuit de arduino
+    def stop_it(self):
+        self.arduino.stop = True
+
+    # Asks Arduino if still connected
+    def is_alive(self):
+        self.arduino.send_instruction('41')
+
+    # Requests current temperature from Arduino
     def get_current_temp(self):
-        threading.Timer(40.0, self.get_current_temp).start()
-        # encode.Encoder('')
-        return ''
+        self.arduino.send_instruction('42')
 
-    # Haalt elke 30 sec de huidige lichtintensiteit seconden vanuit de arduino
+    # Requests current distance from Arduino
+    def get_current_distance(self):
+        self.arduino.send_instruction('43')
+
+    # Requests currently measured light intensity
     def get_current_light(self):
-        threading.Timer(30.0, self.get_current_light).start()
-        # encode.Encoder('.')
-        return ''
+        self.arduino.send_instruction('44')
 
-    # Update de huidige temperatuur elke 60 seconden naar de GUI
-    def update_current_temp(self):
-        # threading.Timer(60.0, self.update_current_temp()).start()
-        self.current_temp = self.get_current_temp()
-        return self.current_temp
-
-    # Update de huidige lichtintensiteit elke 60 seconden naar de GUI
-    def update_current_light(self):
-        # threading.Timer(60.0, self.update_current_temp()).start()
-        self.current_light_intensity = self.get_current_light()
-        return self.current_light_intensity
-
-    def update_current_rolldown_status(self):
-        pass
-
-    def update_temp_action_limit(self):
-        pass
-
-    def update_light_action_limit(self):
-        pass
-
-    def update_max_rollout(self):
-        pass
-
-    def update_min_rollout(self):
-        pass
-
-    def manual_rollup(self):
-        pass
-
+    # Sends roll-down command to Arduino
     def manual_rolldown(self):
-        pass
+        self.arduino.send_instruction('45')
 
-    def update_graph(self):
-        pass
+    # Sends roll-up command to Arduino
+    def manual_rollup(self):
+        self.arduino.send_instruction('46')
 
-    def process_days_back(self):
-        pass
+    # Sends command to roll to a given distance
+    def roll_to_specific_distance(self):
+        self.arduino.send_instruction('47')
 
-    # Temporary test method
-    def turn_on_led(self):
-        encode.Encoder('024203')
+    # Sets/updates the roll-out temperature
+    def update_temp_threshold(self):
+        self.arduino.send_instruction('48')
+
+    # Sets/updates the roll-out light intensity
+    def update_light_threshold(self):
+        self.arduino.send_instruction('49')
+
+    # Requests the roll-out temperature
+    def get_temp_threshold(self):
+        self.arduino.send_instruction('4A')
+
+    # Requests the roll-out light intensity
+    def get_light_threshold(self):
+        self.arduino.send_instruction('4B')
+
+    # Updates the maximum roll-out distance
+    def update_max_rollout(self):
+        self.arduino.send_instruction('4C')
+
+    # Updates the minimum roll-out distance
+    def update_min_rollout(self):
+        self.arduino.send_instruction('4D')
+
+    # Resets a specified setting to default
+    def reset_setting(self):
+        self.arduino.send_instruction('4E')
+
+
+class ToGUI:
+    def __init__(self):
+        self.conv = converter.Converter()
+
+    # Returns current temperature from Arduino to GUI
+    def return_current_temp(self, bycmd):
+        print(bycmd)
+        print("Temperature returned")
+        self.conv.hex_to_int(bycmd)
+
+    def return_succes(self, bycmd):
+        print(bycmd)
+        print("Succes")

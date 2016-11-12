@@ -1,5 +1,10 @@
 from Python.object import Zonwering
+import time
 
 if __name__ == '__main__':
     z1 = Zonwering()
-    z1.turn_on_led()
+
+    time.sleep(2)
+    z1.get_current_temp()
+    time.sleep(2)
+    z1.stop_it()
