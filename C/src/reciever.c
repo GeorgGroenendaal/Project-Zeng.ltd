@@ -3,7 +3,6 @@
  * Corresponding function indice can be calculated by: instruction - 0x41 = instruction index.
  */
 #include <avr/interrupt.h>
-#include <stdbool.h>
 #include <string.h>
 
 bool new_instruction = false; // Toggled on if the next byte is instruction

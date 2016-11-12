@@ -50,12 +50,12 @@ void proto_setlightthreshold(){
 
 // 0x4A
 void proto_gettempraturethreshold(){
-  send_failed();
+  send_float(D_TEMPTHRESHOLD);
 }
 
 // 0x4B
 void proto_getlightthreshold(){
-  send_failed();
+  send_float(D_LIGHTTHRESHOLD);
 }
 
 // 0x4C

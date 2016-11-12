@@ -1,8 +1,16 @@
 #define F_CPU 16000000UL
 
 #include <avr/io.h>
+#include <stdint.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
+#include <stdbool.h>
+
+// Globals, get initialized in eeprom_init
+float D_TEMPTHRESHOLD;
+float D_LIGHTTHRESHOLD;
+float D_MAXROLLOUT;
+float D_MINROLLOUT;
 
 // Local filesm
 #include "functions/init.c"
@@ -12,8 +20,10 @@
 #include "protocoll.c"
 #include "reciever.c"
 
+
 int main (void)
 {
+  eeprom_init();
   port_init(); // Initialize port data registers
   timer_init();
   uart_init(); // Initialize uart
