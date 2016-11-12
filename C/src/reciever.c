@@ -11,17 +11,35 @@ char instruction; // Contains instruction code
 char parameter[4]; // 4 bytes with for a maximum of 32 bits storage. We keep big endian notation
 
 // Array of function pointers, that gets called based on
-void (*func_ptr[5])() = {
+void (*func_ptr[14])() = {
   // 0 - 0x41
-  base_isalive,
+  proto_isalive,
   // 1 - 0x42
-  sensor_gettemp,
+  proto_gettemprature,
   // 2 - 0x43
-  sensor_getdistance,
+  proto_getdistance,
   // 3 - 0x44
-  led13on,
-  // 4 - ox45
-  led13off
+  proto_getlight,
+  // 4 - 0x45
+  proto_rollout,
+  // 5 - 0x46
+  proto_rollin,
+  // 6 - 0x47
+  proto_rollto,
+  // 7 - 0x48
+  proto_settempraturethreshold,
+  // 8 - 0x49
+  proto_setlightthreshold,
+  // 9 - 0x4A
+  proto_gettempraturethreshold,
+  // 10 - 0x4B
+  proto_getlightthreshold,
+  // 11 - 0x4C
+  proto_setmaxrollout,
+  // 12 - 0x4D
+  proto_setminrollout,
+  // 13 - 0x4E
+  proto_resetsettings
 };
 
 // Aligns the instruction with func_ptr indice. So 0x41 executes the first function.
