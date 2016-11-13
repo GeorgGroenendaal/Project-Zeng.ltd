@@ -34,10 +34,9 @@ class Dashboard(QWidget):
         self.horizontalLayout_2.addWidget(self.tabWidget)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(Widget)
-        self.addTab(3)
 
-        # Function to add a tab. This function takes a number from 1-4 as
-        # parameter representing the number of the arduino
+    # Function to add a tab. This function takes a number from 1-4 as
+    # parameter representing the number of the arduino
     def addTab(self, number):   #
         if number == 1:
             self.tabWidget.addTab(self.w1.SunScreen1, "Sun Screen 1")
@@ -232,55 +231,65 @@ class Tab(QWidget):  # Class Tab, holding all the layout and design choices.
         self.out_btn.setGeometry(QtCore.QRect(430, 130, 131, 51))
         self.out_btn.setText("Out")
         self.out_btn.setObjectName("out_btn")
-        # Link apply out-button to function
+        # Link out-button to function
         self.out_btn.clicked.connect(self.manualOut)
+        # Link in-button to function
+        self.in_btn.clicked.connect(self.manualIn)
 
         # Second 'container' on the right side: Use History Graph
         # Label
         self.useHistory_lbl = QtWidgets.QLabel(self.SunScreen1)
-        self.useHistory_lbl.setGeometry(QtCore.QRect(300, 200, 71, 16))
-        self.useHistory_lbl.setText("Use History")
+        self.useHistory_lbl.setGeometry(QtCore.QRect(300, 200, 150, 20))
+        self.useHistory_lbl.setText("Use Statistics")
         self.useHistory_lbl.setObjectName("useHistory_lbl")
-        # Dropdown menu
-        self.useHistory_dropdown = QtWidgets.QComboBox(self.SunScreen1)
-        self.useHistory_dropdown.setGeometry(QtCore.QRect(480, 200, 104, 26))
-        self.useHistory_dropdown.setCurrentText("3 days")
-        self.useHistory_dropdown.setObjectName("useHistory_dropdown")
-        self.useHistory_dropdown.addItem("")
-        self.useHistory_dropdown.setItemText(0, "3 days")
-        self.useHistory_dropdown.addItem("")
-        self.useHistory_dropdown.setItemText(1, "5 days")
-        self.useHistory_dropdown.addItem("")
-        self.useHistory_dropdown.setItemText(2, "7 days")
-        # Widget for graph WIP. TODO
-        self.useHist_widget = QtWidgets.QWidget(self.SunScreen1)
-        self.useHist_widget.setGeometry(QtCore.QRect(300, 220, 281, 101))
-        self.useHist_widget.setObjectName("useHist_widget")
+        # Buttons for graph
+        self.usegraph_btn = QtWidgets.QPushButton(self.SunScreen1)
+        self.usegraph_btn.setGeometry(QtCore.QRect(430, 240, 131, 51))
+        self.usegraph_btn.setText("Graph")
+        self.usegraph_btn.setObjectName("useGraphbtn")
+        self.usebar_btn = QtWidgets.QPushButton(self.SunScreen1)
+        self.usebar_btn.setGeometry(QtCore.QRect(300, 240, 131, 51))
+        self.usebar_btn.setText("Bar")
+        self.usebar_btn.setObjectName("useBarbtn")
+        # Linking buttons to function
+        self.usegraph_btn.clicked.connect(self.openuseGraph)
+        self.usebar_btn.clicked.connect(self.openuseBar)
 
         # Third 'container' on the right side : Temperature History Graph
         # Label
         self.tempHistory_lbl = QtWidgets.QLabel(self.SunScreen1)
-        self.tempHistory_lbl.setGeometry(QtCore.QRect(300, 340, 126, 16))
-        self.tempHistory_lbl.setText("Temperature History")
+        self.tempHistory_lbl.setGeometry(QtCore.QRect(300, 340, 150, 20))
+        self.tempHistory_lbl.setText("Temperature Statistics")
         self.tempHistory_lbl.setObjectName("tempHistory_lbl")
-        # Dropdown menu
-        self.tempHistory_dropdown = QtWidgets.QComboBox(self.SunScreen1)
-        self.tempHistory_dropdown.setGeometry(QtCore.QRect(480, 340, 104, 26))
-        self.tempHistory_dropdown.setCurrentText("3 days")
-        self.tempHistory_dropdown.setObjectName("useHistory_dropdown_2")
-        self.tempHistory_dropdown.addItem("")
-        self.tempHistory_dropdown.setItemText(0, "3 days")
-        self.tempHistory_dropdown.addItem("")
-        self.tempHistory_dropdown.setItemText(1, "5 days")
-        self.tempHistory_dropdown.addItem("")
-        self.tempHistory_dropdown.setItemText(2, "7 days")
-        # Widget for graph WIP. TODO
-        self.tempHist_widget = QtWidgets.QWidget(self.SunScreen1)
-        self.tempHist_widget.setGeometry(QtCore.QRect(300, 360, 281, 101))
-        self.tempHist_widget.setObjectName("tempHist_widget")
-        self.setcurrentTemp(12)
-        self.setcurrentLight(50)
-        self.setcurrentRoll(60)
+        # Graph and Bar Chart Buttons.
+        self.tempgraph_btn = QtWidgets.QPushButton(self.SunScreen1)
+        self.tempgraph_btn.setGeometry(QtCore.QRect(430, 380, 131, 51))
+        self.tempgraph_btn.setText("Graph")
+        self.tempgraph_btn.setObjectName("tempGraphbtn")
+        self.tempbar_btn = QtWidgets.QPushButton(self.SunScreen1)
+        self.tempbar_btn.setGeometry(QtCore.QRect(300, 380, 131, 51))
+        self.tempbar_btn.setText("Bar")
+        self.tempbar_btn.setObjectName("tempBarbtn")
+        # Link buttons to function
+        self.tempgraph_btn.clicked.connect(self.opentempGraph)
+        self.tempbar_btn.clicked.connect(self.opentempBar)
+
+    # Open window with use history bar chart TODO
+
+    def openuseBar(self):
+        pass
+
+    # Open window with use history graph TODO
+    def openuseGraph(self):
+        pass
+
+    # Open window with temperature bar chart TODO
+    def opentempBar(self):
+        pass
+
+    # Open tab with temperature graph TODO
+    def opentempGraph(self):
+        pass
 
     def setcurrentTemp(self, temp):  # Function to set current temperature
         self.currentTemp.setText("{0} Cº".format(str(temp)))
