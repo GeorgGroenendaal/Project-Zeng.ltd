@@ -42,15 +42,15 @@ class Zonwering:
         self.arduino.send_instruction('46')
 
     # Sends command to roll to a given distance
-    def roll_to_specific_distance(self):
+    def roll_to_specific_distance(self):  # Nog een parameter aan meegeven
         self.arduino.send_instruction('47')
 
     # Sets/updates the roll-out temperature
-    def update_temp_threshold(self):
+    def update_temp_threshold(self):  # Nog een parameter aan meegeven
         self.arduino.send_instruction('48')
 
     # Sets/updates the roll-out light intensity
-    def update_light_threshold(self):
+    def update_light_threshold(self):  # Nog een parameter aan meegeven
         self.arduino.send_instruction('49')
 
     # Requests the roll-out temperature
@@ -62,11 +62,11 @@ class Zonwering:
         self.arduino.send_instruction('4B')
 
     # Updates the maximum roll-out distance
-    def update_max_rollout(self):
+    def update_max_rollout(self):  # Nog een parameter aan meegeven
         self.arduino.send_instruction('4C')
 
     # Updates the minimum roll-out distance
-    def update_min_rollout(self):
+    def update_min_rollout(self):  # Nog een parameter aan meegeven
         self.arduino.send_instruction('4D')
 
     # Resets a specified setting to default
@@ -75,13 +75,30 @@ class Zonwering:
 
 
 class ToGUI:
-
     # Returns current temperature from Arduino to GUI
     def return_current_temp(self, bycmd):
-        print(bycmd)
-        print("Temperature returned")
-        converter.hex_to_int(bycmd)
+        print(converter.hex_to_int(bycmd))
 
+    # Returns current distance of screen from Arduino to GUI
+    def return_current_distance(self, bycmd):
+        print(converter.hex_to_int(bycmd))
+
+    # Returns current light intensity from Arduino to GUI
+    def return_current_light(self, bycmd):
+        print(converter.hex_to_int(bycmd))
+
+    # Returns current temperature treshold from Arduino to GUI
+    def return_current_temp_treshold(self, bycmd):
+        print(converter.hex_to_int(bycmd))
+
+    # Returns current light intensity treshold from Arduino to GUI
+    def return_current_light_treshold(self, bycmd):
+        print(converter.hex_to_int(bycmd))
+
+    # Returns current temperature from Arduino to GUI
     def return_succes(self, bycmd):
-        print(bycmd)
-        print("Succes")
+        succesorfailed = bycmd[1:-2]
+        if succesorfailed == b'0':
+            return True
+        else:
+            return False

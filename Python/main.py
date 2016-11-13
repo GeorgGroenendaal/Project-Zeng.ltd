@@ -5,6 +5,6 @@ if __name__ == '__main__':
     z1 = Zonwering()
 
     time.sleep(2)
-    z1.get_current_temp()
+    z1.is_alive()
     time.sleep(2)
     z1.stop_it()

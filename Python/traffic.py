@@ -11,10 +11,21 @@ class Traffic:
         self.cmd = []
         self.stop = False
         self.instr = None
-        # Assignment of return value-methods to me made in object and assigned from decode()
         self.codes = {
             '41': obj.ToGUI.return_succes,
             '42': obj.ToGUI.return_current_temp,
+            '43': obj.ToGUI.return_current_distance,
+            '44': obj.ToGUI.return_current_light,
+            '45': obj.ToGUI.return_succes,
+            '46': obj.ToGUI.return_succes,
+            '47': obj.ToGUI.return_succes,
+            '48': obj.ToGUI.return_succes,
+            '49': obj.ToGUI.return_succes,
+            '4A': obj.ToGUI.return_current_temp_treshold,
+            '4B': obj.ToGUI.return_current_light_treshold,
+            '4C': obj.ToGUI.return_succes,
+            '4D': obj.ToGUI.return_succes,
+            '4E': obj.ToGUI.return_succes
         }
         threading.Thread(target=self.listen).start()
 
