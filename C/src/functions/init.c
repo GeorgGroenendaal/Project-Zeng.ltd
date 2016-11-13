@@ -28,10 +28,12 @@ void eeprom_init(){
 /* Sets up data direction registers
 */
 void port_init(void){
-  DDRB |= _BV(DDB5); // Pin 13 output
-
   DDRB |= _BV(DDB0); // Pin 8 output (trigger)
   DDRB &= ~_BV(DDB1); // Pin 9 input (echo )
+
+  DDRB |= _BV(DDB2); // Pin 13 output Red led
+  DDRB |= _BV(DDB3); // Pin 14 output Green led
+  DDRB |= _BV(DDB4); // Pin 15 output Yellow led
 
   DDRC &= ~_BV(DDC0); // Analog pin 0 input Temprature
   DDRC &= ~_BV(DDC1); // Analog pin 1 input Light

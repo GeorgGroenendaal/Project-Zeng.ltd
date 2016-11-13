@@ -30,7 +30,11 @@ int main (void)
   adc_init(); // Initialize ADC
   sei(); // Enable global interrupts
 
+  PORTB |= _BV(PB3);
+
   while(1) {
+    PORTB ^= _BV(PB2) | _BV(PB3) | _BV(PB4);
+    _delay_ms(1000);
   }
   return 0;
 }
