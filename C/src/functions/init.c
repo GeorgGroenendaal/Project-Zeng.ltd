@@ -12,7 +12,7 @@ void eeprom_init(){
     // Set temprature threshold
     eeprom_write_float((float*)0x01, 25);
     // Set light threshold
-    eeprom_write_float((float*)0x05, 70);
+    eeprom_write_float((float*)0x05, 80);
     // Set max rollout
     eeprom_write_float((float*)0x09, 170);
     // set min rollout
@@ -33,13 +33,15 @@ void port_init(void){
   DDRB |= _BV(DDB0); // Pin 8 output (trigger)
   DDRB &= ~_BV(DDB1); // Pin 9 input (echo )
 
-  DDRC &= ~_BV(DDC0); // Analog pin 0 input
+  DDRC &= ~_BV(DDC0); // Analog pin 0 input Temprature
+  DDRC &= ~_BV(DDC1); // Analog pin 1 input Light
+
 }
 
 /* Sets the timer and prescaler
  */
 void timer_init(void){
-  TCCR1B |= _BV(CS10);
+  TCCR1B |= _BV(CS10); // prescaler 0 - use system clock
 }
 
 /* Sets up the usb with the most common configuration:

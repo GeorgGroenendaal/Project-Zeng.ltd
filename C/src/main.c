@@ -23,9 +23,9 @@ float D_MINROLLOUT;
 
 int main (void)
 {
-  eeprom_init();
+  eeprom_init(); // Load eeprom to ram, or initialize eeprom
   port_init(); // Initialize port data registers
-  timer_init();
+  timer_init(); // Start 16 bit timer.
   uart_init(); // Initialize uart
   adc_init(); // Initialize ADC
   sei(); // Enable global interrupts

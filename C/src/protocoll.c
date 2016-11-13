@@ -6,21 +6,22 @@ void proto_isalive(){
   send_success();
 }
 
-// 0x42
+// 0x42 - sends the current temprature in degree Celcius
 void proto_gettemprature(){
   float temp = gettemp();
   send_float(temp);
 }
 
-// 0x43
+// 0x43 - Sends the current distance in cm
 void proto_getdistance(){
   float temp = getdistance();
   send_float(temp);
 }
 
-// 0x44
+// 0x44 - Sends the current light intensity as float between 0 - 100
 void proto_getlight(){
-  send_failed();
+  float light = getlight();
+  send_float(light);
 }
 
 // 0x45

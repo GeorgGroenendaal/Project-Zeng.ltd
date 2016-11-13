@@ -32,7 +32,7 @@ def listen():
 
 if __name__ == "__main__":
     ser = serial.Serial(
-        port='/dev/ttyACM0',
+        port='/dev/COM3',
         baudrate=9600,
         timeout=1
     )
@@ -40,8 +40,8 @@ if __name__ == "__main__":
     time.sleep(2)
     t = threading.Thread(target=listen)
     t.start()
-    for i in range(0,10):
-        send_instruction('43')
+    for i in range(0,40):
+        send_instruction('44')
         time.sleep(1)
         cmd = []
     stop = True
