@@ -7,7 +7,7 @@
 
 bool new_instruction = false; // Toggled on if the next byte is instruction
 char instruction; // Contains instruction code
-char parameter[4]; // 4 bytes with for a maximum of 32 bits storage. We keep big endian notation
+char paramcount; // Counts the current position to append to PROTO_PARAM
 
 // Array of function pointers, that gets called based on
 void (*func_ptr[14])() = {
@@ -47,11 +47,12 @@ void execute_instruction(){
   func_ptr[index]();
 }
 
-// Resets the instruction variables
+// Resets the instruction variables and PROTO_PARAM
 void reset_instruction(){
   new_instruction = false;
   instruction = 0x00;
-  memset(&parameter, 0x00, 4);
+  paramcount = 0;
+  PROTO_PARAM.f = 0x00;
 }
 
 // Serial interrupt. Gets called when a byte over serial has been recieved.
@@ -77,13 +78,11 @@ ISR(USART_RX_vect){
     reset_instruction();
     return;
   }
-  // Other bytes are parameters. TODO: create an better parameter storing system.
+  // Other bytes are parameters.
   else {
-    int i;
-    for (i = 0; i < 4; i++){
-      if (parameter[i] == 0x00){
-        parameter[i] = recievedbyte;
-      }
+    if (paramcount < 4){
+      PROTO_PARAM.chrs[paramcount] = recievedbyte;
+      paramcount = paramcount + 1;
     }
   }
 }

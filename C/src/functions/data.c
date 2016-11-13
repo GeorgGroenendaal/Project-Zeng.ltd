@@ -11,20 +11,20 @@
 
 void settempthreshold(float temp){
   D_TEMPTHRESHOLD = temp;
-  eeprom_write_float(0x01, temp);
+  eeprom_write_float((float*)0x01, temp);
 }
 
 void setlightthreshold(float light){
   D_LIGHTTHRESHOLD = light;
-  eeprom_write_float(0x05, light);
+  eeprom_write_float((float*)0x05, light);
 }
 
 void setmaxrollout(float rollout){
   D_MAXROLLOUT = rollout;
-  eeprom_write_float(0x09, rollout);
+  eeprom_write_float((float*)0x09, rollout);
 }
 
 void setminrollout(float rollout){
   D_TEMPTHRESHOLD = rollout;
-  eeprom_write_float(0x0D, rollout);
+  eeprom_write_float((float*)0x0D, rollout);
 }

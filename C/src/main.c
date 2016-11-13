@@ -12,9 +12,16 @@ float D_LIGHTTHRESHOLD;
 float D_MAXROLLOUT;
 float D_MINROLLOUT;
 
+// Global that contains the last parameter recieved by the protocoll
+union Param {
+  char chrs[4];
+  float f;
+} PROTO_PARAM;
+
 // Local filesm
 #include "functions/init.c"
 #include "functions/sensor.c"
+#include "functions/data.c"
 
 #include "responder.c"
 #include "protocoll.c"

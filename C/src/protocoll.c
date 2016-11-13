@@ -1,7 +1,7 @@
 /* Functions as a linker for the protocoll
  */
 
-// 0x41
+// 0x41 - Returns success, lets know that it is alive
 void proto_isalive(){
   send_success();
 }
@@ -41,35 +41,64 @@ void proto_rollto(){
 
 // 0x48
 void proto_settempraturethreshold(){
-  send_failed();
+  if (PROTO_PARAM.f >= -50 && PROTO_PARAM.f <= 120){
+    settempthreshold(PROTO_PARAM.f);
+    send_success();
+  }
+  else {
+    send_failed();
+  }
 }
 
-// 0x49
+// 0x49 - Sets the light threshold between 0 - 100
 void proto_setlightthreshold(){
-  send_failed();
+  if (PROTO_PARAM.f >= 0 && PROTO_PARAM.f <= 100){
+    setlightthreshold(PROTO_PARAM.f);
+    send_success();
+  }
+  else {
+    send_failed();
+  }
 }
 
-// 0x4A
+// 0x4A - Returns the current temp threshold
 void proto_gettempraturethreshold(){
   send_float(D_TEMPTHRESHOLD);
 }
 
-// 0x4B
+// 0x4B - Returns the current light threshold
 void proto_getlightthreshold(){
   send_float(D_LIGHTTHRESHOLD);
 }
 
-// 0x4C
+// 0x4C - Sets the maximum rollout 0 - 170
 void proto_setmaxrollout(){
-  send_failed();
+  if (PROTO_PARAM.f >= 5 && PROTO_PARAM.f <= 170){
+    setmaxrollout(PROTO_PARAM.f);
+    send_success();
+  }
+  else {
+    send_failed();
+  }
 }
 
-// 0x4D
+// 0x4D - Sets the minimum rollout
 void proto_setminrollout(){
-  send_failed();
+  if (PROTO_PARAM.f >= 5 && PROTO_PARAM.f <= 170 && PROTO_PARAM.f < D_MAXROLLOUT){
+    setminrollout(PROTO_PARAM.f);
+    send_success();
+  }
+  else {
+    send_failed();
+  }
 }
 
-// 0x4E
+// 0x4E - Resets all the settings to the default.
 void proto_resetsettings(){
-  send_failed();
+  settempthreshold(25);
+  setlightthreshold(80);
+  setmaxrollout(170);
+  setminrollout(5);
+
+  send_success();
 }
