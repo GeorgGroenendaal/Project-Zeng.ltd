@@ -18,7 +18,17 @@ union Param {
   float f;
 } PROTO_PARAM;
 
-// Local filesm
+// Current mode of execution 0, 1 or 2 (still, out, in)
+char MODE;
+// Value that to roll to with margin
+float ROLL_TO;
+float ROLL_TO_min;
+float ROLL_TO_max;
+// The current cached distance
+float CURRENTDISTANCE;
+
+// Local files
+#include "functions/automat.c"
 #include "functions/init.c"
 #include "functions/sensor.c"
 #include "functions/data.c"
@@ -37,11 +47,13 @@ int main (void)
   adc_init(); // Initialize ADC
   sei(); // Enable global interrupts
 
-  PORTB |= _BV(PB3);
-
   while(1) {
-    PORTB ^= _BV(PB2) | _BV(PB3) | _BV(PB4);
-    _delay_ms(1000);
+    _delay_ms(10);
+    // Stores the distance in local var
+    CURRENTDISTANCE = getdistance();
+    checkbuttons();
+    mode();
+
   }
   return 0;
 }

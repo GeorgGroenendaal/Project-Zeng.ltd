@@ -26,12 +26,16 @@ void proto_getlight(){
 
 // 0x45
 void proto_rollout(){
-  send_failed();
+  MODE = 0x01;
+  setrollto(D_MAXROLLOUT);
+  send_success();
 }
 
 // 0x46
 void proto_rollin(){
-  send_failed();
+  MODE = 0x02;
+  setrollto(D_MINROLLOUT);
+  send_success();
 }
 
 // 0x47
