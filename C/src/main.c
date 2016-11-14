@@ -26,11 +26,14 @@ float ROLL_TO_min;
 float ROLL_TO_max;
 // The current cached distance
 float CURRENTDISTANCE;
+// Toggle for manual mode
+bool MANUAL = false;
 
 // Local files
-#include "functions/automat.c"
 #include "functions/init.c"
+
 #include "functions/sensor.c"
+#include "functions/automat.c"
 #include "functions/data.c"
 
 #include "responder.c"
@@ -51,8 +54,9 @@ int main (void)
     _delay_ms(10);
     // Stores the distance in local var
     CURRENTDISTANCE = getdistance();
-    checkbuttons();
     mode();
+    checkbuttons();
+    checksensors();
 
   }
   return 0;

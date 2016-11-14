@@ -1,6 +1,12 @@
 /* Contains autonimous functions
  */
 
+ void setrollto(float rollto){
+   ROLL_TO = rollto;
+   ROLL_TO_max = rollto + 1;
+   ROLL_TO_min = rollto - 1;
+ }
+
 void motor(){
   if (CURRENTDISTANCE < ROLL_TO_max && CURRENTDISTANCE > ROLL_TO_min){
     MODE = 0x00;
@@ -17,7 +23,7 @@ void motor(){
 void mode(){
   if (MODE == 0x00){
     PORTB &= ~_BV(PB4);
-    if (CURRENTDISTANCE <= D_MINROLLOUT){
+    if (CURRENTDISTANCE < D_MINROLLOUT + 1){
       PORTB |= _BV(PB3);
       PORTB &= ~_BV(PB2);
     }
@@ -25,6 +31,7 @@ void mode(){
       PORTB &= ~_BV(PB3);
       PORTB |= _BV(PB2);
     }
+    motor();
   }
   else if (MODE == 0x01){
     PORTB |= _BV(PB2);
@@ -40,13 +47,48 @@ void mode(){
   }
 }
 
-// Checkbuttons:
-void checkbuttons(){
+void checksensors(){
+  if (gettemp() >= D_TEMPTHRESHOLD || getlight() >= D_LIGHTTHRESHOLD && MANUAL == false){
+    setrollto(D_MAXROLLOUT);
+  }
+  else if (MANUAL == true){
 
+  }
+  else {
+    setrollto(D_MINROLLOUT);
+  }
 }
 
-void setrollto(float rollto){
-  ROLL_TO = rollto;
-  ROLL_TO_max = rollto + 0.5;
-  ROLL_TO_min = rollto - 0.5;
+// Checks if the user pushes buttons
+void checkbuttons(){
+  if (PIND & _BV(PD5) && PIND & _BV(PD7)){
+    MANUAL = false;
+    char i;
+    for (i = 0; i < 5; i++){
+      PORTB |= _BV(PB2);
+      PORTB |= _BV(PB3);
+      PORTB |= _BV(PB4);
+      _delay_ms(250);
+      PORTB &= ~_BV(PB2);
+      PORTB &= ~_BV(PB3);
+      PORTB &= ~_BV(PB4);
+      _delay_ms(250);
+    }
+    setrollto(D_MINROLLOUT);
+  }
+  // Rollin
+  else if (PIND & _BV(PD5)){
+    MANUAL = true;
+    setrollto(D_MINROLLOUT);
+  }
+  // Rollout
+  else if(PIND & _BV(PD7)){
+    MANUAL = true;
+    setrollto(D_MAXROLLOUT);
+  }
+  // Stop
+  else if(PIND & _BV(PD6)){
+    MANUAL = true;
+    setrollto(CURRENTDISTANCE);
+  }
 }

@@ -26,21 +26,28 @@ void proto_getlight(){
 
 // 0x45
 void proto_rollout(){
-  MODE = 0x01;
+  MANUAL = true;
   setrollto(D_MAXROLLOUT);
   send_success();
 }
 
 // 0x46
 void proto_rollin(){
-  MODE = 0x02;
+  MANUAL = true;
   setrollto(D_MINROLLOUT);
   send_success();
 }
 
 // 0x47
 void proto_rollto(){
-  send_failed();
+  if (PROTO_PARAM.f >= D_MINROLLOUT && PROTO_PARAM.f <= D_MAXROLLOUT){
+    MANUAL = true;
+    setrollto(PROTO_PARAM.f);
+    send_success();
+  }
+  else {
+    send_failed();
+  }
 }
 
 // 0x48

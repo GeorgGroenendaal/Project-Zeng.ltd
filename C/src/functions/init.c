@@ -35,6 +35,10 @@ void port_init(void){
   DDRB |= _BV(DDB3); // Pin 14 output Green led
   DDRB |= _BV(DDB4); // Pin 15 output Yellow led
 
+  DDRD &= ~_BV(DDB5); // Pin 5 Input ROLLIN
+  DDRD &= ~_BV(DDB6); // Pin 6 Input stop
+  DDRD &= ~_BV(DDB7); // Pin 7 input stop
+
   DDRC &= ~_BV(DDC0); // Analog pin 0 input Temprature
   DDRC &= ~_BV(DDC1); // Analog pin 1 input Light
 
