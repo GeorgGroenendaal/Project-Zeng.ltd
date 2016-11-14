@@ -2,6 +2,8 @@
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import*
+import object as obj
+
 
 
 class Dashboard(QWidget):
@@ -13,6 +15,8 @@ class Dashboard(QWidget):
         self.w3 = Tab()
         self.w4 = Tab()
         self.drawDashboard(self)
+        # self.addTab(1)
+
 
     # Drawing the main widget with tab layout from multiple Tab Class
     # instances.

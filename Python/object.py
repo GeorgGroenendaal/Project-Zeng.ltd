@@ -1,5 +1,7 @@
 import traffic
 import converter
+import Dashboard as d
+import threading
 
 
 class Zonwering:
@@ -20,6 +22,7 @@ class Zonwering:
 
     # Requests current temperature from Arduino
     def get_current_temp(self):
+        threading.Timer(10.0, self.get_current_temp).start()
         self.arduino.send_instruction('42')
 
     # Requests current distance from Arduino
@@ -75,6 +78,7 @@ class ToGUI:
     # Returns current temperature from Arduino to GUI
     def return_current_temp(self, bycmd):
         print(converter.hex_to_int(bycmd))
+        return converter.hex_to_int(bycmd)
 
     # Returns current distance of screen from Arduino to GUI
     def return_current_distance(self, bycmd):
@@ -97,8 +101,6 @@ class ToGUI:
         print(bycmd)
         succesorfailed = bycmd[1:-2]
         if succesorfailed == b'0':
-            print("succes")
             return True
         else:
-            print("failed")
             return False
