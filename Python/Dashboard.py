@@ -2,7 +2,7 @@
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import*
-import object as obj
+from object import *
 
 
 
@@ -15,7 +15,6 @@ class Dashboard(QWidget):
         self.w3 = Tab()
         self.w4 = Tab()
         self.drawDashboard(self)
-        # self.addTab(1)
 
 
     # Drawing the main widget with tab layout from multiple Tab Class
@@ -56,16 +55,16 @@ class Dashboard(QWidget):
     # Function to delete tab. This function takes a number from 1-4 as
     # parameter representing the number of the arduino
     def deleteTab(self, number):
-        if number == 1:
+        if number == 0:
+            self.tabWidget.removeTab(0)
+        elif number == 1:
             self.tabWidget.removeTab(1)
         elif number == 2:
             self.tabWidget.removeTab(2)
         elif number == 3:
             self.tabWidget.removeTab(3)
-        elif number == 4:
-            self.tabWidget.removeTab(4)
-        else:
-            print("number range is 1-4 (arduinos)")
+        # else:
+        #     print("number range is 1-4 (arduinos)")
 
 
 class Tab(QWidget):  # Class Tab, holding all the layout and design choices.
@@ -296,7 +295,7 @@ class Tab(QWidget):  # Class Tab, holding all the layout and design choices.
         pass
 
     def setcurrentTemp(self, temp):  # Function to set current temperature
-        self.currentTemp.setText("{0} Cº".format(str(temp)))
+        self.currentTemp.setText("{0} Cº".format(int(temp)))
 
     def setcurrentLight(self, light):   # Function to set current light.
         self.currentLight.setText("{0} %".format(str(light)))

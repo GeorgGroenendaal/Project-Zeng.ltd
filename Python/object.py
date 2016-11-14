@@ -22,7 +22,7 @@ class Zonwering:
 
     # Requests current temperature from Arduino
     def get_current_temp(self):
-        threading.Timer(10.0, self.get_current_temp).start()
+        # threading.Timer(10.0, self.get_current_temp).start()
         self.arduino.send_instruction('42')
 
     # Requests current distance from Arduino
@@ -77,8 +77,8 @@ class Zonwering:
 class ToGUI:
     # Returns current temperature from Arduino to GUI
     def return_current_temp(self, bycmd):
-        print(converter.hex_to_int(bycmd))
-        return converter.hex_to_int(bycmd)
+        value = converter.hex_to_int(bycmd)
+        return value
 
     # Returns current distance of screen from Arduino to GUI
     def return_current_distance(self, bycmd):
