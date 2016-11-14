@@ -1,6 +1,7 @@
 import serial
 import threading
-from Python import object as obj
+import object as obj
+import time
 
 
 class Traffic:
@@ -27,13 +28,16 @@ class Traffic:
             '4D': obj.ToGUI.return_succes,
             '4E': obj.ToGUI.return_succes
         }
-        threading.Thread(target=self.listen).start()
+
 
     # Send hex instruction to ard
     def send_instruction(self, instruction):
+        time.sleep(0.1)
         self.instr = instruction
         cmd = '02' + self.instr + '03'
         self.ser.write(bytes.fromhex(cmd))
+        self.stop = False
+        threading.Thread(target=self.listen).start()
 
     # Decodes incoming instructions
     def decode(self):
@@ -48,4 +52,5 @@ class Traffic:
             if bytes.fromhex('03') == char:
                 self.cmd.append(char)
                 self.decode()
+                self.cmd = []
                 self.stop = True

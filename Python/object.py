@@ -1,5 +1,5 @@
-from Python import traffic
-from Python import converter
+import traffic
+import converter
 
 
 class Zonwering:
@@ -13,9 +13,6 @@ class Zonwering:
         self.min_rollout = 0.5
         self.look_days_back = 0
         self.arduino = traffic.Traffic()
-
-    def stop_it(self):
-        self.arduino.stop = True
 
     # Asks Arduino if still connected
     def is_alive(self):
@@ -97,8 +94,11 @@ class ToGUI:
 
     # Returns current temperature from Arduino to GUI
     def return_succes(self, bycmd):
+        print(bycmd)
         succesorfailed = bycmd[1:-2]
         if succesorfailed == b'0':
+            print("succes")
             return True
         else:
+            print("failed")
             return False
