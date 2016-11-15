@@ -44,19 +44,29 @@ class Dashboard(QWidget):
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(Widget)
 
+        self.nodevice = QtWidgets.QLabel(Widget)
+        self.nodevice.setGeometry(QtCore.QRect(200, 240, 200, 23))
+        text = QtGui.QFont()
+        text.setPointSize(19)
+        self.nodevice.setText("No Devices Connected")
+        self.nodevice.setFont(text)
+
     # Function to add a tab. This function takes a number from 1-4 as
     # parameter representing the number of the arduino
     def addTab(self, serialn, name):   #
         newtab = Tab()
         index = self.tabWidget.addTab(newtab.SunScreen1, name)
         self.devices[serialn] = {'name': name, 'tab': newtab, 'tabindex': index}
+        self.nodevice.hide()
         print(self.devices)
     # Function to delete tab. This function takes a number from 1-4 as
     # parameter representing the number of the arduino
 
     def deleteTab(self, serialn):
         self.tabWidget.removeTab(self.devices[serialn]['tabindex'])
-
+        del self.devices[serialn]
+        if len(self.devices) == 0:
+            self.nodevice.show()
 
 
 if __name__ == '__main__':

@@ -2,7 +2,6 @@ from PyQt5 import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
-
 class Tab(QWidget):  # Class Tab, holding all the layout and design choices.
 
     def __init__(self):
@@ -231,7 +230,7 @@ class Tab(QWidget):  # Class Tab, holding all the layout and design choices.
         pass
 
     def setcurrentTemp(self, temp):  # Function to set current temperature
-        self.currentTemp.setText("{0} Cº".format(temp))
+        self.currentTemp.setText("{0} Cº".format(int(temp)))
 
     def setcurrentLight(self, light):   # Function to set current light.
         self.currentLight.setText("{0} %".format(str(light)))
