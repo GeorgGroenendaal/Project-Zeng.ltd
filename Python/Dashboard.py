@@ -5,6 +5,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from Main import Main
 from Tab import Tab
+from Traffic import Arduino
 
 # from object import *
 
@@ -53,8 +54,8 @@ class Dashboard(QWidget):
 
     # Function to add a tab. This function takes a number from 1-4 as
     # parameter representing the number of the arduino
-    def addTab(self, serialn, name):   #
-        newtab = Tab()
+    def addTab(self, serialn, name, port):   #
+        newtab = Tab(port)
         index = self.tabWidget.addTab(newtab.SunScreen1, name)
         self.devices[serialn] = {'name': name, 'tab': newtab, 'tabindex': index}
         self.nodevice.hide()
@@ -67,6 +68,8 @@ class Dashboard(QWidget):
         del self.devices[serialn]
         if len(self.devices) == 0:
             self.nodevice.show()
+
+
 
 
 if __name__ == '__main__':

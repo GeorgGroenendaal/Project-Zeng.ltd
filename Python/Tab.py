@@ -1,10 +1,20 @@
 from PyQt5 import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
+from Traffic import Arduino
 
 class Tab(QWidget):  # Class Tab, holding all the layout and design choices.
 
-    def __init__(self):
+    def __init__(self, port):
+        self.arduino = Arduino(port)
+
+        self.arduino.successmsg.connect(self.successmessage)
+        self.arduino.failedsmsg.connect(self.failedmessage)
+
+        self.arduino.tempmsg.connect(self.setcurrentTemp)
+        self.arduino.lightmsg.connect(self.setcurrentLight)
+
+
         QWidget.__init__(self)
         self.makeTab(self)
 
@@ -163,14 +173,14 @@ class Tab(QWidget):  # Class Tab, holding all the layout and design choices.
         self.in_btn.setText("In")
         self.in_btn.setObjectName("in_btn")
         # Link apply in-button to function
-        # self.in_btn.clicked.connect(self.manualIn)
+        self.in_btn.clicked.connect(self.manualIn)
         # Out Button
         self.out_btn = QtWidgets.QPushButton(self.SunScreen1)
         self.out_btn.setGeometry(QtCore.QRect(430, 130, 131, 51))
         self.out_btn.setText("Out")
         self.out_btn.setObjectName("out_btn")
         # Link out-button to function
-        # self.out_btn.clicked.connect(self.manualOut)
+        self.out_btn.clicked.connect(self.manualOut)
         # Link in-button to function
         # self.in_btn.clicked.connect(self.manualIn)
 
@@ -212,6 +222,24 @@ class Tab(QWidget):  # Class Tab, holding all the layout and design choices.
         self.tempgraph_btn.clicked.connect(self.opentempGraph)
         self.tempbar_btn.clicked.connect(self.opentempBar)
 
+
+    def successmessage(self, message):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+
+        msg.setText("Succes!")
+        msg.setWindowTitle("Succesful")
+        msg.setStandardButtons(QMessageBox.Ok)
+        retval = msg.exec_()
+
+    def failedmessage(self, message):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+
+        msg.setText("Failed")
+        msg.setWindowTitle("De waardes waren waarschijnlijk niet binnen de range")
+        msg.setStandardButtons(QMessageBox.Warning)
+        retval = msg.exec_()
     # Open window with use history bar chart TODO
 
     def openuseBar(self):
@@ -230,10 +258,10 @@ class Tab(QWidget):  # Class Tab, holding all the layout and design choices.
         pass
 
     def setcurrentTemp(self, temp):  # Function to set current temperature
-        self.currentTemp.setText("{0} Cº".format(int(temp)))
+        self.currentTemp.setText("{0} Cº".format(temp))
 
     def setcurrentLight(self, light):   # Function to set current light.
-        self.currentLight.setText("{0} %".format(str(light)))
+        self.currentLight.setText("{0} %".format(light))
 
     def setcurrentRoll(self, roll):  # Function to set current roll-out
         self.currentRoll.setText("{0} %".format(str(roll)))
@@ -258,10 +286,10 @@ class Tab(QWidget):  # Class Tab, holding all the layout and design choices.
         else:
             return 70  # Light percentage
 
-    # # Use Henk's manual in function TODO
-    # def manualIn(self):
-    #     Zonwering.manual_rollup()
-    #
-    # # Use Henk's manual out function TODO
-    # def manualOut(self):
-    #     Zonwering.manual_rolldown()
+    # Use Henk's manual in function TODO
+    def manualIn(self):
+        self.arduino.manual_rollup()
+
+    # Use Henk's manual out function TODO
+    def manualOut(self):
+        self.arduino.manual_rolldown()

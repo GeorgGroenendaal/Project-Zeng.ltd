@@ -5,7 +5,7 @@ import serial.tools.list_ports
 # Main initializer
 class Main(QThread):
 
-    addtab = pyqtSignal(int, str)
+    addtab = pyqtSignal(int, str, str)
     deltab = pyqtSignal(int)
 
     def __init__(self):
@@ -21,7 +21,7 @@ class Main(QThread):
                     serial_number.append(port.serial_number)
                     if port.serial_number not in self.devices:
                         name = "Arduino " + port.serial_number[-4:]
-                        self.addtab.emit(port.serial_number, name)
+                        self.addtab.emit(port.serial_number, name, port.device)
                         self.devices[port.serial_number] = {name}
             for key in list(self.devices.keys()):
                 if key not in serial_number:
