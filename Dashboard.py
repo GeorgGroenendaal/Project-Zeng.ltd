@@ -34,6 +34,13 @@ class Dashboard(QWidget):
         self.horizontalLayout_2.addWidget(self.tabWidget)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(Widget)
+        # No devices connected Label
+        self.nodevice = QtWidgets.QLabel(Widget)
+        self.nodevice.setGeometry(QtCore.QRect(200, 240, 200, 23))
+        text = QtGui.QFont()
+        text.setPointSize(19)
+        self.nodevice.setText("No Devices Connected")
+        self.nodevice.setFont(text)
 
     # Function to add a tab. This function takes a number from 1-4 as
     # parameter representing the number of the arduino
@@ -52,16 +59,16 @@ class Dashboard(QWidget):
     # Function to delete tab. This function takes a number from 1-4 as
     # parameter representing the number of the arduino
     def deleteTab(self, number):
-        if number == 1:
+        if number == 0:
+            self.tabWidget.removeTab(0)
+        elif number == 1:
             self.tabWidget.removeTab(1)
         elif number == 2:
             self.tabWidget.removeTab(2)
         elif number == 3:
             self.tabWidget.removeTab(3)
-        elif number == 4:
-            self.tabWidget.removeTab(4)
-        else:
-            print("number range is 1-4 (arduinos)")
+        # else:
+        #     print("number range is 1-4 (arduinos)")
 
 
 class Tab(QWidget):  # Class Tab, holding all the layout and design choices.
@@ -292,7 +299,7 @@ class Tab(QWidget):  # Class Tab, holding all the layout and design choices.
         pass
 
     def setcurrentTemp(self, temp):  # Function to set current temperature
-        self.currentTemp.setText("{0} Cº".format(str(temp)))
+        self.currentTemp.setText("{0} Cº".format(int(temp)))
 
     def setcurrentLight(self, light):   # Function to set current light.
         self.currentLight.setText("{0} %".format(str(light)))
