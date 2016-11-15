@@ -6,7 +6,7 @@ import time
 
 class Traffic:
     def __init__(self):
-        self.ser = serial.Serial(port='/dev/cu.usbmodem1411',
+        self.ser = serial.Serial(port='COM3',
                                  baudrate=9600,
                                  timeout=0.1)
         self.cmd = []

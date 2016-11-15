@@ -6,14 +6,6 @@ import threading
 
 class Zonwering:
     def __init__(self):
-        self.current_temp = 0
-        self.current_light_intensity = 0
-        self.current_rolldown_status = None
-        self.temp_action_limit = None
-        self.light_action_limit = None
-        self.max_rollout = 160.0
-        self.min_rollout = 0.5
-        self.look_days_back = 0
         self.arduino = traffic.Traffic()
 
     # Asks Arduino if still connected
