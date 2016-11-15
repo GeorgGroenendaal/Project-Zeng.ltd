@@ -10,7 +10,7 @@
 void rollin(){
   int run;
   char i;
-  for (run = 0; run < 500; run++){
+  for (run = 0; run < 50; run++){
     for (i = 0;i <= 3; i++){
       switch (i) {
         case 0:
@@ -46,7 +46,7 @@ void rollin(){
 void rollout(){
   int run;
   char i;
-  for (run = 0; run < 500; run++){
+  for (run = 0; run < 50; run++){
     for (i = 3;i >= 0; i--){
       switch (i) {
         case 0:
