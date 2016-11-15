@@ -7,15 +7,89 @@
    ROLL_TO_min = rollto - 1;
  }
 
+void rollin(){
+  int run;
+  char i;
+  for (run = 0; run < 500; run++){
+    for (i = 0;i <= 3; i++){
+      switch (i) {
+        case 0:
+          PORTD |= _BV(PD2);
+          PORTD |= _BV(PD3);
+          PORTD &= ~_BV(PD4);
+          PORTB &= ~_BV(PB5);
+        break;
+        case 1:
+          PORTD &= ~_BV(PD2);
+          PORTD |= _BV(PD3);
+          PORTD |= _BV(PD4);
+          PORTB &= ~_BV(PB5);
+        break;
+        case 2:
+          PORTD &= ~_BV(PD2);
+          PORTD &= ~_BV(PD3);
+          PORTD |= _BV(PD4);
+          PORTB |= _BV(PB5);
+        break;
+        case 3:
+          PORTD |= _BV(PD2);
+          PORTD &= ~_BV(PD3);
+          PORTD &= ~_BV(PD4);
+          PORTB |= _BV(PB5);
+        break;
+      }
+    _delay_ms(2);
+    }
+  }
+}
+
+void rollout(){
+  int run;
+  char i;
+  for (run = 0; run < 500; run++){
+    for (i = 3;i >= 0; i--){
+      switch (i) {
+        case 0:
+          PORTD |= _BV(PD2);
+          PORTD |= _BV(PD3);
+          PORTD &= ~_BV(PD4);
+          PORTB &= ~_BV(PB5);
+        break;
+        case 1:
+          PORTD &= ~_BV(PD2);
+          PORTD |= _BV(PD3);
+          PORTD |= _BV(PD4);
+          PORTB &= ~_BV(PB5);
+        break;
+        case 2:
+          PORTD &= ~_BV(PD2);
+          PORTD &= ~_BV(PD3);
+          PORTD |= _BV(PD4);
+          PORTB |= _BV(PB5);
+        break;
+        case 3:
+          PORTD |= _BV(PD2);
+          PORTD &= ~_BV(PD3);
+          PORTD &= ~_BV(PD4);
+          PORTB |= _BV(PB5);
+        break;
+      }
+    _delay_ms(2);
+    }
+  }
+}
+
 void motor(){
   if (CURRENTDISTANCE < ROLL_TO_max && CURRENTDISTANCE > ROLL_TO_min){
     MODE = 0x00;
   }
   else if (CURRENTDISTANCE < ROLL_TO_max){
     MODE = 0x01;
+    rollout();
   }
   else if (CURRENTDISTANCE > ROLL_TO_min){
     MODE = 0x02;
+    rollin();
   }
 }
 
