@@ -7,16 +7,18 @@ class Tab(QWidget):  # Class Tab, holding all the layout and design choices.
 
     def __init__(self, port):
         self.arduino = Arduino(port)
-
         self.arduino.successmsg.connect(self.successmessage)
         self.arduino.failedsmsg.connect(self.failedmessage)
 
         self.arduino.tempmsg.connect(self.setcurrentTemp)
         self.arduino.lightmsg.connect(self.setcurrentLight)
+        self.arduino.distmsg.connect(self.setcurrentRoll)
+
 
 
         QWidget.__init__(self)
         self.makeTab(self)
+
 
     def makeTab(self, Widget):  # Function to create User Interface.
         # First Tab.
@@ -264,27 +266,28 @@ class Tab(QWidget):  # Class Tab, holding all the layout and design choices.
         self.currentLight.setText("{0} %".format(light))
 
     def setcurrentRoll(self, roll):  # Function to set current roll-out
-        self.currentRoll.setText("{0} %".format(str(roll)))
+        self.currentRoll.setText("{0} cm".format(str(roll)))
 
     def buttonclicktempSens(self):  # Function to get temp sens line.
         temp = self.tempSens_line.text()
-        return int(temp)
+        self.arduino.update_temp_threshold(temp)
 
     def buttonclickSettings(self):  # Function to get maxin and maxout line.
         maxIn = self.maxIn_line.text()
+        self.arduino.update_min_rollout(maxIn)
         maxOut = self.maxOut_line.text()
-        return int(maxIn), int(maxOut)
+        self.arduino.update_max_rollout(maxOut)
 
     def buttonclicklightSens(self):  # Function to get current dropdown text.
         value = self.lightintsens_dropdown.currentText()
         if value == "Cloudy":
-            return 15   # Light percentage
+            self.arduino.update_light_threshold(str(40))   # Light percentage
         elif value == "Partly Cloudy":
-            return 25  # Light percentage
+            self.arduino.update_light_threshold(str(50))  # Light percentage
         elif value == "Sunny":
-            return 50  # Light percentage
+            self.arduino.update_light_threshold(str(80))  # Light percentage
         else:
-            return 70  # Light percentage
+            self.arduino.update_light_threshold(str(90))  # Light percentage
 
     # Use Henk's manual in function TODO
     def manualIn(self):

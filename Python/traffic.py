@@ -3,6 +3,7 @@ import threading
 from PyQt5.QtCore import *
 import time
 import struct
+import codecs
 
 
 
@@ -14,17 +15,17 @@ class Arduino(QObject):
 
     tempmsg = pyqtSignal(int)
     lightmsg = pyqtSignal(int)
+    distmsg = pyqtSignal(int)
 
     def __init__(self, port):
         self.ser = serial.Serial(port=port,
-                                 baudrate=9600,
-                                 timeout=0.1)
+                                 baudrate=9600)
         self.cmd = []
         self.instr = None
         self.codes = {
             '41': self.return_success,
             '42': self.return_current_temp,
-            # '43': self.return_current_distance,
+            '43': self.return_current_distance,
             '44': self.return_current_light,
             '45': self.return_success,
             '46': self.return_success,
@@ -43,20 +44,24 @@ class Arduino(QObject):
         QTimer.singleShot(0,self.executor)
         self.timer = QTimer()
         self.timer.timeout.connect(self.executor)
-        self.timer.start(5000)
+        self.timer.start(10000)
 
     def executor(self):
         self.get_current_temp()
         self.get_current_light()
+        self.get_current_distance()
 
     # Send hex instruction to ard
     def send_instruction(self, instruction):
-        time.sleep(0.1)
-        self.instr = instruction
-        cmd = '02' + self.instr + '03'
-        self.ser.write(bytes.fromhex(cmd))
-        self.stop = False
-        self.listen()
+        try:
+            time.sleep(0.1)
+            self.instr = instruction
+            cmd = '02' + self.instr + '03'
+            self.ser.write(bytes.fromhex(cmd))
+            self.stop = False
+            self.listen()
+        except:
+            pass
 
     def convert_float(self, bycmd):
         print(bycmd)
@@ -77,6 +82,10 @@ class Arduino(QObject):
             self.codes[self.instr](val)
 
 
+    def floatify(self, string):
+        strct = struct.pack('<f', int(string))
+        return codecs.encode(strct, 'hex').decode()
+
     # Listens to incoming serial connection
     def listen(self):
         while not self.stop:
@@ -92,13 +101,16 @@ class Arduino(QObject):
         self.successmsg.emit("Success")
 
     def return_failed(self):
-        print("Failed")
+        self.failedmsg.emit("Failed")
 
     def return_current_temp(self, temp):
         self.tempmsg.emit(temp)
 
     def return_current_light(self, light):
         self.lightmsg.emit(light)
+
+    def return_current_distance(self, distance):
+        self.distmsg.emit(distance)
 
     # Asks Arduino if still connected
     def is_alive(self):
@@ -130,12 +142,14 @@ class Arduino(QObject):
         self.send_instruction('47')
 
     # Sets/updates the roll-out temperature
-    def update_temp_threshold(self):  # Nog een parameter aan meegeven
-        self.send_instruction('48')
+    def update_temp_threshold(self, temp):  # Nog een parameter aan meegeven
+        val = self.floatify(temp)
+        self.send_instruction('48' + val)
 
     # Sets/updates the roll-out light intensity
-    def update_light_threshold(self):  # Nog een parameter aan meegeven
-        self.send_instruction('49')
+    def update_light_threshold(self, light):  # Nog een parameter aan meegeven
+        val = self.floatify(light)
+        self.send_instruction('49' + val)
 
     # Requests the roll-out temperature
     def get_temp_threshold(self):
@@ -146,12 +160,14 @@ class Arduino(QObject):
         self.send_instruction('4B')
 
     # Updates the maximum roll-out distance
-    def update_max_rollout(self):  # Nog een parameter aan meegeven
-        self.send_instruction('4C')
+    def update_max_rollout(self, maxout):  # Nog een parameter aan meegeven
+        val = self.floatify(maxout)
+        self.send_instruction('4C' + val)
 
     # Updates the minimum roll-out distance
-    def update_min_rollout(self):  # Nog een parameter aan meegeven
-        self.send_instruction('4D')
+    def update_min_rollout(self, maxin):  # Nog een parameter aan meegeven
+        val = self.floatify(maxin)
+        self.send_instruction('4D' + val)
 
     # Resets a specified setting to default
     def reset_setting(self):

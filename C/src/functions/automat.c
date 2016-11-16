@@ -10,7 +10,7 @@
 void rollin(){
   int run;
   char i;
-  for (run = 0; run < 50; run++){
+  for (run = 0; run < 70; run++){
     for (i = 0;i <= 3; i++){
       switch (i) {
         case 0:
@@ -38,7 +38,7 @@ void rollin(){
           PORTB |= _BV(PB5);
         break;
       }
-    _delay_ms(2);
+    _delay_ms(3);
     }
   }
 }
@@ -46,7 +46,7 @@ void rollin(){
 void rollout(){
   int run;
   char i;
-  for (run = 0; run < 50; run++){
+  for (run = 0; run < 70; run++){
     for (i = 3;i >= 0; i--){
       switch (i) {
         case 0:
@@ -74,7 +74,7 @@ void rollout(){
           PORTB |= _BV(PB5);
         break;
       }
-    _delay_ms(2);
+    _delay_ms(3);
     }
   }
 }
