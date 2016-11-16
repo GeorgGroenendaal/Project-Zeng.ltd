@@ -1,47 +1,35 @@
-# Main python
-import serial
 import time
-import threading
-import struct
+from PyQt5.QtCore import *
+import serial.tools.list_ports
 
-cmd = []
-stop = False
+# Main initializer
+class Main(QThread):
 
-def decode():
-    data = cmd[2:6]
-    by = b''.join(data)
-    temp = struct.unpack('<f', by)
-    print("Temperatuur is {0:.1f} graden Celcius".format(temp[0]))
+    addtab = pyqtSignal(int, str, str)
+    deltab = pyqtSignal(int)
 
-# Send hex instruction to ard
-def send_instruction(instr):
-    cmd = '02' + instr + '03'
-    ser.write(bytes.fromhex(cmd))
+    def __init__(self):
+        self.devices = {}
+        QThread.__init__(self)
 
-# Listens to incomming serial connection
-def listen():
-    while stop == False:
-        char = ser.read(1)
-        if (bytes.fromhex('02') == char):
-            cmd.append(char)
-        elif (bytes.fromhex('03') == char):
-            cmd.append(char)
-            decode()
-        else:
-            cmd.append(char)
+    def run(self):
+        while 1:
+            ports = serial.tools.list_ports.comports();
+            serial_number = []
+            for port in ports:
+                if port.description[0:7] == "Arduino":
+                    serial_number.append(port.serial_number)
+                    if port.serial_number not in self.devices:
+                        name = "Arduino " + port.serial_number[-4:]
+                        self.addtab.emit(port.serial_number, name, port.device)
+                        self.devices[port.serial_number] = {name}
+            for key in list(self.devices.keys()):
+                if key not in serial_number:
+                    self.deltab.emit(key)
+                    del self.devices[key]
+            QThread.sleep(2)
 
-if __name__ == "__main__":
-    ser = serial.Serial(
-        port='COM3',
-        baudrate=9600,
-        timeout=1
-    )
-
-    time.sleep(2)
-    t = threading.Thread(target=listen)
-    t.start()
-    for i in range(0,10):
-        send_instruction('42')
-        time.sleep(1)
-        cmd = []
-    stop = True
+    def createInterface(self):
+        print(self.addtab.emit('hi'))
+        # return {'tab': tab, 'tabindex': index}
+        # Create communication interface for the arduino's

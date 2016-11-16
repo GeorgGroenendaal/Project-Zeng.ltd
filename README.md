@@ -5,6 +5,9 @@ The goal of this project is to design an solar screen control unit for a fiction
 
 The project consist of two parts, an dashboard written in Python 3.5x used to control and modify the control units running on Arduino Uno's written in C.
 
+## Python Functionality
+This branch is all about the the code that connects the Arduino & C part with the GUI. The De- and encode algorithms can be found here.
+
 ## C
 The latest build can be found under *C > build* and can be flashed to an Arduino Uno using avrdude.
 
@@ -18,3 +21,10 @@ An example (linux) build process would be.
     avr-objcopy -O ihex ../build/build.o ../build/build.hex
     # Flash to Arduino using avrdude
     avrdude -c arduino -P /dev/ttyACM0 -p m328p -U flash:w:../build/build.hex
+
+## Dashboard
+The settings for the control units can be modified using our dashboard. The dashboard uses an Graphical User Interface made with the PyQT module. Enter the following command to install pyQT5 and all its dependencies:
+
+    # python3 -m pip install pyqt5
+
+This will install the wheel for your platform and your version of Python (assuming both are supported). The wheel will be automatically downloaded from the Python Package Index. After that just run Dashboard.py (with Python 3.x!) to open the dashboard.
