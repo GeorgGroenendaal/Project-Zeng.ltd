@@ -25,6 +25,6 @@ void setmaxrollout(float rollout){
 }
 
 void setminrollout(float rollout){
-  D_TEMPTHRESHOLD = rollout;
+  D_MINROLLOUT = rollout;
   eeprom_write_float((float*)0x0D, rollout);
 }
